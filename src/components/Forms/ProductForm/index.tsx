@@ -143,9 +143,9 @@ const ProductForm: React.FC<Props> = ({
                 <UIInput
                   placeholder='Write a tag and hit enter to add it.'
                   title='Tags'
-                  onKeyPress={(e: any) => {
-                    if (e.key === 'Enter' && !value.includes(e.target.value))
-                      onChange([...value, e.target.value]);
+                  onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.key === 'Enter' && !value.includes(e.currentTarget.value))
+                      onChange([...value, e.currentTarget.value]);
                   }}
                 />
                 <Box mt='8px' display='flex'>
