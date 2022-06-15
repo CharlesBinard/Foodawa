@@ -39,7 +39,13 @@ const UpdateProduct: React.FC = () => {
     };
   }, [productId, currentProduct, dispatch]);
 
-  if (!currentProduct) {
+  useEffect(() => {
+    if (!currentProduct && !isLoading) {
+      navigate('/not-found');
+    }
+  }, [currentProduct, isLoading, navigate]);
+
+  if (!currentProduct && isLoading) {
     return (
       <Box textAlign='center'>
         <CircularProgress color='success' />

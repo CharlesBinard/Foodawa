@@ -10,16 +10,16 @@ import UpdateRecipe from './views/Products/Update';
 const App = () => {
   return (
     <BrowserRouter>
-      <DefaultLayout>
-        <Routes>
-          <Route path='/' element={<Recipes />} />
+      <Routes>
+        <Route path='/' element={<DefaultLayout />}>
+          <Route index element={<Recipes />} />
           <Route path='/products' element={<Recipes />} />
           <Route path='/products/create' element={<CreateRecipe />} />
           <Route path='/products/:productId' element={<Product />} />
           <Route path='/products/:productId/update' element={<UpdateRecipe />} />
           <Route path='*' element={<NotFound />} />
-        </Routes>
-      </DefaultLayout>
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 };
