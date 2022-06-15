@@ -8,7 +8,14 @@ export type ProductType = {
 };
 
 export type CustomError = {
+  messages: string[];
+  status: number;
+  action: string;
+};
+
+export type ApiResponseError = {
   response: {
+    status: number;
     data: {
       message: string[];
     };

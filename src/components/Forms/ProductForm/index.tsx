@@ -8,9 +8,9 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { Controller, useForm } from 'react-hook-form';
 
-import { ProductType } from '../../../types';
+import { CustomError, ProductType } from '../../../types';
 import UIButton from '../../../UI/Button';
-import UIErrors from '../../../UI/Errors';
+import UIError from '../../../UI/Errors';
 import UIInput from '../../../UI/Input';
 import Category from '../../Category';
 
@@ -18,10 +18,10 @@ type Props = {
   onSubmit: (data: ProductType) => void;
   product?: ProductType;
   isLoading?: boolean;
-  errors?: string[];
+  error?: CustomError;
 };
 
-const ProductForm: React.FC<Props> = ({ onSubmit, isLoading, product, errors }) => {
+const ProductForm: React.FC<Props> = ({ onSubmit, isLoading, product, error }) => {
   const { handleSubmit, control, formState } = useForm<ProductType>({
     defaultValues: {
       name: product?.name || '',
@@ -36,7 +36,7 @@ const ProductForm: React.FC<Props> = ({ onSubmit, isLoading, product, errors }) 
   return (
     <Box border={2} p='40px' borderRadius='12px' borderColor='#D6D8E7' bgcolor='#FFF'>
       <Grid container direction='column' spacing='20px'>
-        <UIErrors errors={errors} />
+        <UIError error={error} />
         <Grid item display='flex'>
           <Box
             bgcolor='primary.main'
@@ -136,9 +136,10 @@ const ProductForm: React.FC<Props> = ({ onSubmit, isLoading, product, errors }) 
                 <UIInput
                   placeholder='Write a tag and hit enter to add it.'
                   title='Tags'
-                  onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                    if (e.key === 'Enter' && !value.includes(e.currentTarget.value))
-                      onChange([...value, e.currentTarget.value]);
+                  onKeyPress={(e) => {
+                    const target = e.target as HTMLInputElement;
+                    if (e.key === 'Enter' && !value.includes(target.value))
+                      onChange([...value, target.value]);
                   }}
                 />
                 <Box mt='8px' display='flex'>

@@ -6,14 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import ProductForm from '../../components/Forms/ProductForm';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { createProduct } from '../../store/actions/productsActions';
-import { RESET_ERRORS } from '../../store/reducers/productsReducers';
+import { RESET_ERROR } from '../../store/reducers/productsReducers';
 import { ProductType } from '../../types';
 
 const CreateProduct: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { errors, isLoading } = useAppSelector((state) => state.productsReducers);
+  const { error, isLoading } = useAppSelector((state) => state.productsReducers);
 
   const onSubmit = useCallback(
     async (data: ProductType) => {
@@ -25,13 +25,13 @@ const CreateProduct: React.FC = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(RESET_ERRORS());
+      dispatch(RESET_ERROR());
     };
   }, [dispatch]);
 
   return (
     <Box maxWidth='800px' mx='auto'>
-      <ProductForm onSubmit={onSubmit} errors={errors} isLoading={isLoading} />
+      <ProductForm onSubmit={onSubmit} error={error} isLoading={isLoading} />
     </Box>
   );
 };

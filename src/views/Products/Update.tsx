@@ -7,14 +7,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ProductForm from '../../components/Forms/ProductForm';
 import { useAppDispatch, useAppSelector } from '../../store';
 import { getProductById, updateProduct } from '../../store/actions/productsActions';
-import { RESET_ERRORS } from '../../store/reducers/productsReducers';
+import { RESET_ERROR } from '../../store/reducers/productsReducers';
 import { ProductType } from '../../types';
 
 const UpdateProduct: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { productId } = useParams();
-  const { currentProduct, isLoading, errors } = useAppSelector((state) => state.productsReducers);
+  const { currentProduct, isLoading, error } = useAppSelector((state) => state.productsReducers);
 
   const onSubmit = useCallback(
     async (data: ProductType) => {
@@ -35,15 +35,15 @@ const UpdateProduct: React.FC = () => {
     }
 
     return () => {
-      dispatch(RESET_ERRORS());
+      dispatch(RESET_ERROR());
     };
   }, [productId, currentProduct, dispatch]);
 
   useEffect(() => {
-    if (!currentProduct && !isLoading) {
+    if (error?.action === 'getProductById' && !currentProduct) {
       navigate('/not-found');
     }
-  }, [currentProduct, isLoading, navigate]);
+  }, [currentProduct, error?.action, navigate]);
 
   if (!currentProduct && isLoading) {
     return (
@@ -59,7 +59,7 @@ const UpdateProduct: React.FC = () => {
         onSubmit={onSubmit}
         product={currentProduct}
         isLoading={isLoading}
-        errors={errors}
+        error={error}
       />
     </Box>
   );

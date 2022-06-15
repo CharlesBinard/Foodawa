@@ -3,18 +3,20 @@ import React from 'react';
 import Alert from '@mui/material/Alert';
 import Grid from '@mui/material/Grid';
 
+import { CustomError } from '../../types';
+
 type Props = {
-  errors?: string[];
+  error?: CustomError;
 };
 
-const UIErrors: React.FC<Props> = ({ errors }) => {
+const UIError: React.FC<Props> = ({ error }) => {
   return (
     <>
-      {errors && errors.length > 0 && (
+      {error && error.messages?.length > 0 && (
         <Grid item>
-          {errors.map((error, key) => (
+          {error.messages.map((message, key) => (
             <Alert severity='error' key={key}>
-              {error}
+              {message}
             </Alert>
           ))}
         </Grid>
@@ -23,4 +25,4 @@ const UIErrors: React.FC<Props> = ({ errors }) => {
   );
 };
 
-export default UIErrors;
+export default UIError;

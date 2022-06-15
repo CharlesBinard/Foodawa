@@ -3,7 +3,7 @@ import { useEffect, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import BigProductCard from '../../components/Cards/BigProductCard';
 import SmallProductCard from '../../components/Cards/SmallProductCard';
@@ -13,8 +13,11 @@ import { RESET_PRODUCTS } from '../../store/reducers/productsReducers';
 
 const Product = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { productId } = useParams();
-  const { currentProduct, products, isLoading } = useAppSelector((state) => state.productsReducers);
+  const { currentProduct, products, isLoading, error } = useAppSelector(
+    (state) => state.productsReducers,
+  );
 
   useEffect(() => {
     dispatch(RESET_PRODUCTS());
@@ -32,6 +35,12 @@ const Product = () => {
       }),
     );
   }, [currentProduct, dispatch]);
+
+  useEffect(() => {
+    if (error?.action === 'getProductById' && !currentProduct) {
+      navigate('/not-found');
+    }
+  }, [currentProduct, error?.action, navigate]);
 
   const similarProducts = useMemo(
     () => products.filter((product) => product._id !== currentProduct?._id),

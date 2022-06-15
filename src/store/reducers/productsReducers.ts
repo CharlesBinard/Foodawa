@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { PRODUCT_BY_REQUEST } from '../../contants';
-import { ProductType } from '../../types';
+import { CustomError, ProductType } from '../../types';
 import {
   getProducts,
   getProductById,
@@ -14,7 +14,7 @@ export interface VehicleReducerState {
   currentProduct: ProductType | undefined;
   isLoading: boolean;
   noMoreResult: boolean;
-  errors: string[] | undefined;
+  error: CustomError | undefined;
 }
 
 const initialState: VehicleReducerState = {
@@ -22,7 +22,7 @@ const initialState: VehicleReducerState = {
   currentProduct: undefined,
   isLoading: false,
   noMoreResult: false,
-  errors: undefined,
+  error: undefined,
 };
 
 // Reducer
@@ -33,19 +33,19 @@ const productsSlice = createSlice({
     RESET_PRODUCTS(state) {
       state.products = initialState.products;
       state.isLoading = initialState.isLoading;
-      state.errors = initialState.errors;
+      state.error = initialState.error;
       state.noMoreResult = initialState.noMoreResult;
     },
     RESET_CURRENT_PRODUCT(state) {
       state.currentProduct = initialState.currentProduct;
       state.isLoading = initialState.isLoading;
-      state.errors = initialState.errors;
+      state.error = initialState.error;
     },
     SET_CURRENT_PRODUCT(state, action) {
       state.currentProduct = action.payload;
     },
-    RESET_ERRORS(state) {
-      state.errors = initialState.errors;
+    RESET_ERROR(state) {
+      state.error = initialState.error;
     },
   },
   extraReducers: (builder) => {
@@ -60,7 +60,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(getProducts.rejected, (state, action) => {
       state.isLoading = false;
-      state.errors = action.payload;
+      state.error = action.payload;
     });
     // GET PRODUCT
     builder.addCase(getProductById.pending, (state) => {
@@ -72,7 +72,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(getProductById.rejected, (state, action) => {
       state.isLoading = false;
-      state.errors = action.payload;
+      state.error = action.payload;
     });
     // CREATE PRODUCT
     builder.addCase(createProduct.pending, (state) => {
@@ -84,7 +84,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(createProduct.rejected, (state, action) => {
       state.isLoading = false;
-      state.errors = action.payload;
+      state.error = action.payload;
     });
     // UPDATE PRODUCT
     builder.addCase(updateProduct.pending, (state) => {
@@ -96,12 +96,12 @@ const productsSlice = createSlice({
     });
     builder.addCase(updateProduct.rejected, (state, action) => {
       state.isLoading = false;
-      state.errors = action.payload;
+      state.error = action.payload;
     });
   },
 });
 
-export const { RESET_PRODUCTS, SET_CURRENT_PRODUCT, RESET_CURRENT_PRODUCT, RESET_ERRORS } =
+export const { RESET_PRODUCTS, SET_CURRENT_PRODUCT, RESET_CURRENT_PRODUCT, RESET_ERROR } =
   productsSlice.actions;
 
 // Reducer
