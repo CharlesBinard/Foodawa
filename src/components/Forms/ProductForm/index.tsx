@@ -17,18 +17,11 @@ import Category from '../../Category';
 type Props = {
   onSubmit: (data: ProductType) => void;
   product?: ProductType;
-  type?: 'UPDATE' | 'CREATE';
   isLoading?: boolean;
   errors?: string[];
 };
 
-const ProductForm: React.FC<Props> = ({
-  onSubmit,
-  isLoading,
-  product,
-  type = 'UPDATE',
-  errors,
-}) => {
+const ProductForm: React.FC<Props> = ({ onSubmit, isLoading, product, errors }) => {
   const { handleSubmit, control, formState } = useForm<ProductType>({
     defaultValues: {
       name: product?.name || '',
@@ -54,7 +47,7 @@ const ProductForm: React.FC<Props> = ({
             justifyContent='center'
             display='flex'
           >
-            {type === 'UPDATE' ? (
+            {product ? (
               <EditIcon style={{ color: 'white' }} />
             ) : (
               <AddIcon style={{ color: 'white' }} />
@@ -62,7 +55,7 @@ const ProductForm: React.FC<Props> = ({
           </Box>
           <Box ml='12px'>
             <Typography fontSize='18px' fontWeight={700}>
-              {type === 'UPDATE' ? 'Edit product informations' : 'Add a new product'}
+              {product ? 'Edit product informations' : 'Add a new product'}
             </Typography>
             <Typography>Lorem Ipsum.</Typography>
           </Box>
@@ -168,7 +161,7 @@ const ProductForm: React.FC<Props> = ({
         <Grid item>
           {!isLoading ? (
             <UIButton onClick={handleSubmit(onSubmit)} disabled={!formState.isValid}>
-              {type === 'UPDATE' ? 'Update' : 'Add a new product'}
+              {product ? 'Update' : 'Add a new product'}
             </UIButton>
           ) : (
             <CircularProgress color='success' />

@@ -57,7 +57,6 @@ const UpdateProduct: React.FC = () => {
     <Box maxWidth='800px' mx='auto'>
       <ProductForm
         onSubmit={onSubmit}
-        type='UPDATE'
         product={currentProduct}
         isLoading={isLoading}
         errors={errors}

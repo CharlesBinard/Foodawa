@@ -31,7 +31,7 @@ const CreateProduct: React.FC = () => {
 
   return (
     <Box maxWidth='800px' mx='auto'>
-      <ProductForm onSubmit={onSubmit} type='CREATE' errors={errors} isLoading={isLoading} />
+      <ProductForm onSubmit={onSubmit} errors={errors} isLoading={isLoading} />
     </Box>
   );
 };
