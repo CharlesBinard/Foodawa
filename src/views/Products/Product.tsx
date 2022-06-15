@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -14,7 +14,7 @@ import { RESET_PRODUCTS } from '../../store/reducers/productsReducers';
 const Product = () => {
   const dispatch = useAppDispatch();
   const { productId } = useParams();
-  const { currentProduct, products } = useAppSelector((state) => state.productsReducers);
+  const { currentProduct, products, isLoading } = useAppSelector((state) => state.productsReducers);
 
   useEffect(() => {
     dispatch(RESET_PRODUCTS());
@@ -33,6 +33,11 @@ const Product = () => {
     );
   }, [currentProduct, dispatch]);
 
+  const similarProducts = useMemo(
+    () => products.filter((product) => product._id !== currentProduct?._id),
+    [currentProduct?._id, products],
+  );
+
   return (
     <>
       <BigProductCard product={currentProduct} />
@@ -40,18 +45,25 @@ const Product = () => {
         <Typography fontSize='32px' fontWeight={700}>
           Articles similaires
         </Typography>
-        <Grid container alignItems='center' columnSpacing='40px' mt='27px'>
-          {products.length > 0 ? (
-            products
-              .filter((product) => product._id !== currentProduct?._id)
-              .map((product, key) => (
-                <Grid item xs={12} md={4} lg={3} key={key}>
-                  <SmallProductCard product={product} />
-                </Grid>
-              ))
-          ) : (
+        <Grid container alignItems='center' columnSpacing='40px' rowSpacing='27px'>
+          {similarProducts.length > 0 &&
+            similarProducts.map((product, key) => (
+              <Grid item xs={12} md={4} lg={3} key={key}>
+                <SmallProductCard product={product} />
+              </Grid>
+            ))}
+
+          {similarProducts.length === 0 && isLoading && (
             <Grid item xs={12} md={4} lg={3}>
               <SmallProductCard />
+            </Grid>
+          )}
+
+          {similarProducts.length === 0 && !isLoading && (
+            <Grid item xs={12}>
+              <Typography textAlign='center' fontSize='24px' fontWeight={500}>
+                Pas darticles similaires
+              </Typography>
             </Grid>
           )}
         </Grid>

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { PRODUCT_BY_REQUEST } from '../../contants';
 import { CustomError, ProductType } from '../../types';
 import { RootState } from '../index';
 
@@ -23,7 +24,7 @@ export const getProducts = createAsyncThunk<
   const products = productsReducers.products;
 
   const params: GetProductsParamsType = {
-    count: args?.count || 12,
+    count: args?.count || PRODUCT_BY_REQUEST,
     start: products.length,
   };
 

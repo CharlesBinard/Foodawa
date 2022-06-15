@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import { useNavigate } from 'react-router-dom';
@@ -15,10 +15,13 @@ const CreateProduct: React.FC = () => {
 
   const { errors, isLoading } = useAppSelector((state) => state.productsReducers);
 
-  const onSubmit = async (data: ProductType) => {
-    const product = await dispatch(createProduct(data)).unwrap();
-    navigate(`/products/${product?._id}`);
-  };
+  const onSubmit = useCallback(
+    async (data: ProductType) => {
+      const product = await dispatch(createProduct(data)).unwrap();
+      navigate(`/products/${product?._id}`);
+    },
+    [dispatch, navigate],
+  );
 
   useEffect(() => {
     return () => {

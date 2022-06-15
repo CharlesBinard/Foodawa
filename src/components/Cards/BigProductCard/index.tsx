@@ -41,7 +41,7 @@ const BigProductCard: React.FC<Props> = ({ product }) => {
           />
         </Grid>
 
-        <Grid item sm={12} md={5}>
+        <Grid item xs={12} md={5}>
           <Box display='flex' justifyContent='space-between' alignItems='end'>
             <Typography fontSize='32px' fontWeight={700} mr='10px'>
               {product.name}

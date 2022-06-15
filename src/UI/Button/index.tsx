@@ -16,14 +16,11 @@ const UIButton: React.FC<ButtonProps> = (props) => {
         height: 48,
         borderRadius: '10px',
         textTransform: 'none',
-        px: '35px',
+        px: desktop ? '35px' : '10px',
         fontWeight: 700,
         fontSize: desktop ? '16px' : '14px',
       }}
       {...props}
-      onKeyPress={(e) => {
-        e.key === 'Enter' && e.preventDefault();
-      }}
     />
   );
 };

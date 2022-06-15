@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -17,11 +17,11 @@ const SmallProductCard: React.FC<Props> = ({ product }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (!product) return;
     dispatch(SET_CURRENT_PRODUCT(product));
     navigate(`/products/${product._id}`);
-  };
+  }, [dispatch, navigate, product]);
 
   if (!product) {
     return <SmallProductCardSkeleton />;

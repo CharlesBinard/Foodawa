@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { PRODUCT_BY_REQUEST } from '../../contants';
 import { ProductType } from '../../types';
 import {
   getProducts,
@@ -53,7 +54,7 @@ const productsSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(getProducts.fulfilled, (state, action) => {
-      state.noMoreResult = action.payload.length > 12 ? false : true;
+      state.noMoreResult = action.payload.length < PRODUCT_BY_REQUEST;
       state.isLoading = false;
       state.products = [...state.products, ...action.payload];
     });
